@@ -1,0 +1,26 @@
+default: &default
+  adapter: postgresql
+  timeout: 5000
+  encoding: unicode
+  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
+  port: <%= ENV['DB_PORT'] || 5432 %>
+
+development:
+  primary:
+    <<: *default
+    database: <%= ENV['DB_NAME'] || 'product_rules_development' %>
+    host: <%= ENV['DB_HOST'] || 'localhost' %>
+
+test:
+  primary:
+    <<: *default
+    database: <%= ENV['DB_NAME'] || 'product_rules_test' %>
+    host: <%= ENV['DB_HOST'] || 'localhost' %>
+
+production:
+  primary:
+    <<: *default
+    database: <%= ENV['DB_NAME'] %>
+    username: <%= ENV['DB_USER'] %>
+    password: <%= ENV['DB_PASS'] %>
+    host: <%= ENV['DB_HOST'] %>
