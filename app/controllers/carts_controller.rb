@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class CartsController < ApplicationController
-  def add_to_cart
+  def index
+    @cart_items = session[:cart] || {}
+  end
+
+  def add
     session[:cart] ||= {}
 
     product_code = params[:product_code]
@@ -17,7 +21,8 @@ class CartsController < ApplicationController
     end
   end
 
-  def show
-    @cart_items = session[:cart] || {}
+  def reset
+    session[:cart] = {}
+    redirect_to products_path, alert: "Cart reset successfully!"
   end
 end
