@@ -1,0 +1,30 @@
+- if @cart_items.present?
+  - @cart_items.each do |product_code, details|
+    .card.mb-3
+      .card-header
+        | Product Code: #{product_code}
+      .card-body
+        h5.card-title
+          | Price: #{number_to_currency(details["price_at_purchase_time"])}
+        p.card-text
+          - if details["quantity"]
+            p
+              | Quantity: #{details["quantity"]}
+          - if details["discount_type"]
+            p
+              | Discount Applicable: #{details["discount_type"]}
+          - if details["free_items"]
+            p
+              | Free Items: #{details["free_items"]}
+          - if details["total_items"]
+            p
+              | Total Items: #{details["total_items"]}
+          - if details["total_discount"]
+            p
+              | Total Discount: #{number_to_currency(details["total_discount"])}
+          - if details["total_payable"]
+            p
+              | Total Payable: #{number_to_currency(details["total_payable"])}
+  = link_to 'Reset Cart', reset_carts_path, class: 'btn btn-info', method: :post, id: 'resetCartLink'
+- else
+  | Your cart is empty!

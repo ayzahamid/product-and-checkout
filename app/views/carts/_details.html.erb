@@ -1,0 +1,42 @@
+<% @cart_items.each do |product_code, details| %>
+  <div class="card mb-3">
+    <div class="card-header">
+      Product Code: <%= product_code %>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Price: <%= number_to_currency(details["price_at_purchase_time"]) %></h5>
+      <p class="card-text">
+        <p>
+          <% if details["quantity"] %>
+            Quantity: <%= details["quantity"] %>
+          <% end %>
+        </p>
+        <p>
+          <% if details["discount_type"] %>
+            Discount Applicable: <%= details["discount_type"] %>
+          <% end %>
+        </p>
+        <p>
+          <% if details["free_items"] %>
+            Free Items: <%= details["free_items"] %>
+          <% end %>
+        </p>
+        <p>
+          <% if details["total_items"] %>
+            Total Items: <%= details["total_items"] %>
+          <% end %>
+        </p>
+        <p>
+          <% if details["total_discount"] %>
+            Total Discount: <%= number_to_currency(details["total_discount"]) %>
+          <% end %>
+        </p>
+        <p>
+          <% if details["total_payable"] %>
+            Total Payable: <%= number_to_currency(details["total_payable"]) %>
+          <% end %>
+        </p>
+      </p>
+    </div>
+  </div>
+<% end %>
