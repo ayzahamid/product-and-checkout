@@ -27,21 +27,16 @@ class CartAfterPricingRule
   end
 
   def apply_best_pricing_rule
-    active_rules = @product.pricing_rules.active
+    pricing_rule = @product.pricing_rule
 
-    if active_rules.exists?(rule_type: 'bogof')
-      pricing_rule = active_rules.find_by(rule_type: 'bogof')
+    @cart_item[:total_payable] = (@cart_item[:quantity] * @cart_item[:price_at_purchase_time]).to_f
+
+    return unless pricing_rule
+
+    if pricing_rule.rule_type == 'bogof'
       apply_bogof(pricing_rule) if pricing_rule
     else
-      @cart_item[:total_payable] = (@cart_item[:quantity] * @cart_item[:price_at_purchase_time]).to_f
-
-      pricing_rule = active_rules
-                     .where('threshold_quantity <= ?', @cart_item[:quantity])
-                     .where.not(rule_type: 'bogof')
-                     .order(:threshold_quantity)
-                     .last
-
-      return unless pricing_rule
+      return unless pricing_rule.threshold_quantity <= @cart_item[:quantity]
 
       case pricing_rule.rule_type
       when 'bulk_purchase'
@@ -72,9 +67,5 @@ class CartAfterPricingRule
       (@cart_item[:price_at_purchase_time] * pricing_rule.discount_rate * @cart_item[:quantity]).to_f
     @cart_item[:total_payable] =
       ((@cart_item[:price_at_purchase_time] * @cart_item[:quantity]) - @cart_item[:total_discount]).to_f
-  end
-
-  def has_bogof_rule?
-    @product.pricing_rules.active.exists?(rule_type: 'bogof')
   end
 end

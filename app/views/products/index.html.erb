@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-between mb-3 pt-4">
     <h2>Products List</h2>
 
-    <%= link_to 'View Cart', carts_path, class: 'btn btn-info', remote: true, id: 'viewCartLink' %>
+    <%= link_to 'View Cart', carts_path, class: 'btn btn-success', remote: true, id: 'viewCartLink' %>
   </div>
   <table class="table">
     <thead>
@@ -12,6 +12,7 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Add to Cart</th>
+        <th>Manage Pricing Plan</th>
       </tr>
     </thead>
     <tbody>
@@ -28,6 +29,9 @@
               <%= form.hidden_field :product_code, value: product.code %>
               <%= form.submit "Add to Cart", class: "btn btn-primary" %>
             <% end %>
+          </td>
+          <td>
+            <%= link_to 'Manage Pricing Rules', edit_product_pricing_rule_path(product_id: product.id), class: 'btn btn-info', id: 'viewCartLink' %>
           </td>
         </tr>
       <% end %>

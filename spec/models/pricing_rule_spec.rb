@@ -6,7 +6,7 @@ RSpec.describe PricingRule, type: :model do
   describe 'validations' do
     it 'is valid with valid attributes' do
       product = Product.create(code: '001', name: 'Test Product', price: 10.0)
-      pricing_rule = product.pricing_rules.build(
+      pricing_rule = product.build_pricing_rule(
         rule_type: 'bulk_purchase',
         threshold_quantity: 3,
         discount_price: 5.0,

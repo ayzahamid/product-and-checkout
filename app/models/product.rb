@@ -19,7 +19,8 @@
 class Product < ApplicationRecord
   has_many :order_items
   has_many :orders, through: :order_items
-  has_many :pricing_rules
+
+  has_one :pricing_rule
 
   validates :code, presence: true, uniqueness: true
   validates :name, presence: true

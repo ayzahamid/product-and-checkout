@@ -35,4 +35,14 @@ class PricingRule < ApplicationRecord
   validates :active, inclusion: { in: [true, false] }
 
   scope :active, -> { where(active: true) }
+
+  def self.rules
+    rule_types.keys.map do |type|
+      if type == 'bogof'
+        ['Buy one Get one Free', type]
+      else
+        [type.titleize, type]
+      end
+    end
+  end
 end

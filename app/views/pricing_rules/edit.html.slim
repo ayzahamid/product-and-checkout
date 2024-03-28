@@ -1,0 +1,41 @@
+= form_with(model: @pricing_rule, url: product_pricing_rule_path, local: true, class: "my-4") do |form|
+  h3.pt-5.mt-6
+    | Manage Pricing Rule
+
+  .mb-3.mt-3
+    = form.label :rule_type, class: "form-label"
+    = form.select :rule_type, PricingRule.rule_types.keys.map { |type| [type.titleize, type] }, {include_blank: 'Select a rule type', }, { class: "form-select", id: "rule_type_select" }
+
+  .mb-3#discount_price_field
+    = form.label :discount_price, class: "form-label"
+    = form.text_field :discount_price, class: "form-control"
+
+  .mb-3#discount_rate_field
+    = form.label :discount_rate, class: "form-label"
+    = form.text_field :discount_rate, step: 0.01, class: "form-control"
+
+  .mb-3
+    = form.label :threshold_quantity, class: "form-label"
+    = form.number_field :threshold_quantity, class: "form-control"
+
+  .mb-3
+    = form.label :active, class: "form-check-label"
+    = form.check_box :active, class: "form-check-input mx-3"
+
+  = form.submit @pricing_rule.new_record? ? 'Create Pricing Plan' : 'Update Pricing Plan', class: "btn btn-primary"
+
+javascript:
+  $(document).on('turbolinks:load', function() {
+    const $ruleTypeSelect = $('#rule_type_select');
+    const $discountPriceField = $('#discount_price_field');
+    const $discountRateField = $('#discount_rate_field');
+
+    function toggleFields() {
+      const ruleType = $ruleTypeSelect.val();
+      $discountPriceField.toggle(ruleType === 'bulk_purchase');
+      $discountRateField.toggle(ruleType === 'volume_discount');
+    }
+
+    toggleFields(); // Call on load in case there is a preselected value
+    $ruleTypeSelect.on('change', toggleFields);
+  });

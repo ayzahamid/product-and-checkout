@@ -36,6 +36,6 @@ RSpec.describe Product, type: :model do
   describe 'associations' do
     it { should have_many(:order_items) }
     it { should have_many(:orders).through(:order_items) }
-    it { should have_many(:pricing_rules) }
+    it { should have_one(:pricing_rule) }
   end
 end

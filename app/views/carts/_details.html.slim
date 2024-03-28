@@ -25,6 +25,6 @@
           - if details["total_payable"]
             p
               | Total Payable: #{number_to_currency(details["total_payable"])}
-  = link_to 'Reset Cart', reset_carts_path, class: 'btn btn-info', method: :post, id: 'resetCartLink'
+  = link_to 'Reset Cart', reset_carts_path, class: 'btn btn-danger', method: :post, id: 'resetCartLink'
 - else
   | Your cart is empty!
