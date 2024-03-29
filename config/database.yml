@@ -8,13 +8,13 @@ default: &default
 development:
   primary:
     <<: *default
-    database: <%= ENV['DB_NAME'] || 'product_rules_development' %>
+    database: <%= ENV['DB_NAME'] || 'product_ruless_development' %>
     host: <%= ENV['DB_HOST'] || 'localhost' %>
 
 test:
   primary:
     <<: *default
-    database: <%= ENV['DB_NAME'] || 'product_rules_test' %>
+    database: <%= ENV['DB_NAME'] || 'product_ruless_test' %>
     host: <%= ENV['DB_HOST'] || 'localhost' %>
 
 production:

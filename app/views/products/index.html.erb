@@ -1,0 +1,55 @@
+<div class="container mt-5">
+  <div class="d-flex justify-content-between mb-3 pt-4">
+    <h2>Products List</h2>
+
+    <%= link_to 'View Cart', carts_path, class: 'btn btn-success', remote: true, id: 'viewCartLink' %>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Add to Cart</th>
+        <th>Manage Pricing Plan</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @products.each do |product| %>
+        <tr>
+          <td><%= product.code %></td>
+          <td><%= product.name %></td>
+          <td><%= number_to_currency(product.price, unit: "€") %></td>
+          <td>
+            <%= form_with url: add_carts_path, method: :post do |form| %>
+              <%= form.number_field :quantity, in: 1..10, step: 1, value: 1, class: "form-control" %>
+          </td>
+          <td>
+              <%= form.hidden_field :product_code, value: product.code %>
+              <%= form.submit "Add to Cart", class: "btn btn-primary" %>
+            <% end %>
+          </td>
+          <td>
+            <%= link_to 'Manage Pricing Rules', edit_product_pricing_rule_path(product_id: product.id), class: 'btn btn-info', id: 'viewCartLink' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="viewCartModal" tabindex="-1" aria-labelledby="viewCartModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="viewCartModalLabel">Cart Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <turbo-frame id="cart">
+        </turbo-frame>
+      </div>
+    </div>
+  </div>
+</div>
